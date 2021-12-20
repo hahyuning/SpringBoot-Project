@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,6 +22,12 @@ public class BoardRepository {
     // 게시글 조회
     public Board findById(Long boardId) {
         return em.find(Board.class, boardId);
+    }
+
+    // 게시글 전체조회
+    public List<Board> findAll() {
+        return em.createQuery("select b from Board b", Board.class)
+                .getResultList();
     }
 
     // 게시글 삭제

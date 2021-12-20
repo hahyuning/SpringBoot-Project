@@ -12,10 +12,16 @@ spring:
   jpa:
     hibernate:
       # 어플리케이션 실행 시점에 테이블을 drop 하고 다시 생성
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
+
+  profiles:
+    include: oauth
+
+  session:
+    store-type: jdbc
 
 loggin:
   level:

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -27,7 +29,10 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    // 게시글 조회
+    // 게시글 전체조회
+    public List<Board> readAll() {
+        return boardRepository.findAll();
+    }
 
     // 게시글 수정
 }
