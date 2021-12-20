@@ -1,7 +1,7 @@
 # SpringBoot-project
 
 # 사용기술
-Java11, Spring Boot, OAuth2, JWT, JPA, MySQL
+Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
 
 # 요구사항 분석
 #### 계정
@@ -19,4 +19,4 @@ Java11, Spring Boot, OAuth2, JWT, JPA, MySQL
 
 
 # ER 다이어그램
-![image](https://user-images.githubusercontent.com/60869749/146578823-4d0d9e72-ff36-4e6d-b5d0-9ee054af023d.png)
+![image](https://user-images.githubusercontent.com/60869749/146726661-280aed13-bc49-4ea5-9ec6-5e8d3e99e167.png)
