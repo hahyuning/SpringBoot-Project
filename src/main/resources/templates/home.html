@@ -26,9 +26,13 @@
 <body>
 <div class="container">
     <h2>What's in My Desk?!</h2>
+    <div th:text="${memberName}" style="float:right"> 님이 로그인하셨습니다.</div>
     <br/><br/>
         <div class="row">
-            <div th:if = "${memberName != null}" class="box"><span th:text="${memberName}"></span>
+            <div th:if = "${memberName != null}" class="box">
+                <a href="/myPage" class="btn btn-primary btn-block">마이페이지</a>
+            </div>
+            <div th:if = "${memberName != null}" class="box">
                 <a href="/logout" class="btn btn-primary btn-block">로그아웃</a>
             </div>
             <div th:if = "${memberName == null}"  class="box">
@@ -38,7 +42,7 @@
                 <a href="/oauth2/authorization/naver" class="btn btn-primary btn-block">네이버 로그인</a>
             </div>
             <div style="width:120px;margin:10px 0;float:left;">
-            <a href="/create" class="btn btn-primary btn-block">게시글 등록</a>
+                <a href="/create" class="btn btn-primary btn-block">게시글 등록</a>
             </div>
         </div>
     <br/>
@@ -47,19 +51,18 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-2">번호</th>
-                <th class="col-md-5">제목</th>
+                <th class="col-md-1">번호</th>
+                <th class="col-md-2">제목</th>
+                <th class="col-md-5">작성자</th>
                 <th class="col-md-2">작성날짜</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.id}"></td>
-                <td th:text="${board.title}"></td>
-                <td><a th:href="'/board?id='+${board.id}" th:text="${board.title}"></a></td>
-                <td th:text="${board.dateTime} ?
-                    ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.dateTime}"></td>
+                <td><a th:href="'/detail/'+ ${board.id}" th:text="${board.title}"></a></td>
+                <td th:text="${board.writer}"></td>
+                <td th:text="${board.createdDate}"></td>
             </tr>
             </tbody>
         </table>

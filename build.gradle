@@ -31,6 +31,8 @@ dependencies {
 	// 스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	// 파일 업로드
+	implementation 'commons-io:commons-io:2.6'
 	// 세션 저장소
 	compileOnly 'org.springframework.session:spring-session-jdbc'
 	compileOnly 'org.projectlombok:lombok'

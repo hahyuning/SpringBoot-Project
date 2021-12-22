@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board Form</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <style>
+        /*html{position:relative;min-height:100%;}*/
+        body{
+            margin-bottom:60px;
+        }
+
+        body > .container{
+            padding:60px 15px 0;
+        }
+        .box {
+            float:right;
+            width:120px;
+            margin:10px;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h2><span th:text="${memberName}"> 님의 마이 페이지</span></h2>
+    <br/><br/>
+    <div class="row">
+        <div class="box">
+            <a href="/" class="btn btn-primary btn-block">홈으로</a>
+        </div>
+    </div>
+    <br/>
 
+    <h4>내가 작성한 글</h4>
+    <div id="myBoard">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-2">번호</th>
+                <th class="col-md-5">제목</th>
+                <th class="col-md-2">작성날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boardList}">
+                <td th:text="${board.id}"></td>
+                <td><a th:href="'/board?id='+${board.id}" th:text="${board.title}"></a></td>
+                <td th:text="${board.dateTime} ?
+                    ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.dateTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <h4>내가 작성한 댓글</h4>
+    <div id="myComment">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-5">content</th>
+                <th class="col-md-2">작성날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment : ${commentList}">
+                <td th:text="${comment.content}"></td>
+                <td th:text="${comment.dateTime} ?
+                    ${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm')} : ${comment.dateTime}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <h4>내가 좋아한 게시글</h4>
+    <div id="MyLike">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-2">번호</th>
+                <th class="col-md-5">제목</th>
+                <th class="col-md-2">작성자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="like : ${likeList}">
+                <td th:text="${like.board.id}"></td>
+                <td><a th:href="'/like?id='+${like.id}" th:text="${like.board.title}"></a></td>
+                <td th:text="${like.board.writer}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <style>
+        .box {
+            float:right;
+            width:120px;
+            margin:10px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-dark bg-dark shadow-sm mb-3">
+    <div class="container d-flex justify-content-between">
+        <h2>게시글</h2>
+    </div>
+</div>
+<br><br><br>
+<div class="container">
+    <div class="row">
+        <div th:if = "${memberId != null}" class="box">
+            <a th:href="'/update/'+ ${board.id}" class="btn btn-primary btn-block">수정</a>
+        </div>
+        <div th:if = "${memberId != null}" class="box">
+            <a th:href="'/delete/'+ ${board.id}" class="btn btn-primary btn-block">삭제</a>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"><strong>제목</strong></label>
+        <div class="col-sm-10">
+            <span type="text" th:text="${board.title}" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"><strong>내용</strong></label>
+        <div class="col-sm-10">
+            <span type="text" th:text="${board.content}" class="form-control"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+    </div>
+    <br>
+</div>
+</body>
+</html>

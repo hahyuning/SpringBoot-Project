@@ -1,6 +1,7 @@
 package com.desk.spring.config.oauth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,11 +16,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+            .cors().and()
+            .csrf().disable()
             // url 별 권한 관리
             .authorizeRequests()
-            .mvcMatchers("/").permitAll()
+                .mvcMatchers(HttpMethod.POST, "/create").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/create").permitAll()
+                .mvcMatchers("/").permitAll()
+            //.mvcMatchers("/", "/create").permitAll()
             // .mvcMatchers("/myPage").hasRole("USER")
-            .anyRequest().authenticated()
+            // .anyRequest().authenticated()
+            //.and()
             .and()
                 .logout()
                     // 로그아웃 성공시 이동할 주소

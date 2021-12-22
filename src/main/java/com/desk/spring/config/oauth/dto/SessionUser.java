@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionUser implements Serializable {
 
+    private Long id;
     private String name;
     private String email;
 
@@ -18,6 +19,7 @@ public class SessionUser implements Serializable {
     }
 
     public SessionUser(Member member) {
+        this.id = member.getId();
         this.name = member.getName();
         this.email = member.getEmail();
     }

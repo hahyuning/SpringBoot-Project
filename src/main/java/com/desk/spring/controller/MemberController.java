@@ -1,7 +1,7 @@
 package com.desk.spring.controller;
 
 import com.desk.spring.config.oauth.dto.SessionUser;
-import com.desk.spring.domain.Board;
+import com.desk.spring.controller.dto.BoardResponseDto;
 import com.desk.spring.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class MemberController {
 
     @GetMapping("/")
     public String home(Model model) {
-        List<Board> boardList = boardService.readAll();
+        List<BoardResponseDto> boardList = boardService.readAll();
         model.addAttribute("boardList", boardList);
 
         SessionUser member = (SessionUser) httpSession.getAttribute("member");
