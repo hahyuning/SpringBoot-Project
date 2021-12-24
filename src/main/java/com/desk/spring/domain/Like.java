@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "likes")
 @Getter
-public class Like {
+public class Like extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -17,6 +17,8 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    private String ipAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")

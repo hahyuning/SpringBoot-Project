@@ -1,18 +1,17 @@
 package com.desk.spring.domain;
 
-import lombok.Builder;
+import com.desk.spring.controller.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Board {
+public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -26,43 +25,60 @@ public class Board {
     @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String content;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    @Enumerated(EnumType.STRING)
+    private LoginState loginState;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<Photo> files = new ArrayList<>();
+    private String ipAddress;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Photo> photos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
-    private List<Like> likeMember = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
-    @Builder
-    public Board(String title, String content, Member member) {
+    private Board(String title, String content, String ipAddress, LoginState loginState) {
         this.title = title;
         this.content = content;
-        this.member = member;
+        this.ipAddress = ipAddress;
+        this.loginState = loginState;
     }
 
-    public void addFile(Photo file) {
-        this.files.add(file);
+    /*
+     * 연관관계 메서드
+     */
+    public void addPhoto(Photo photo) {
+        this.photos.add(photo);
 
-        if (file.getBoard() != this) {
-            file.setBoard(this);
+        if (photo.getBoard() != this) {
+            photo.setBoard(this);
         }
     }
 
-    @PrePersist
-    public void setCreatedDate() {
-        this.createdDate = LocalDateTime.now();
+    public void setMember(Member member) {
+        this.member = member;
+        member.getMyBoards().add(this);
     }
 
+    /*
+     * 게시글 수정
+     */
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    /*
+     * 게시글 생성
+     */
+    public static Board createBoard(BoardRequestDto boardRequestDto) {
+        Board board = new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(),
+                boardRequestDto.getIpAddress(), boardRequestDto.getLoginState());
+        return board;
     }
 }

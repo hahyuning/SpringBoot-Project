@@ -7,16 +7,20 @@ import lombok.Getter;
 
 import java.util.Map;
 
-// OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담은 클래스
+// OAuth2UserService를 통해 가져온 OAuth2User의 attribute(이름, 이메일)를 담은 클래스
 @Getter
 @Builder
 public class OAuthAttributes {
 
     private Map<String, Object> attributes;
-    private String nameAttributeKey;
+    private String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드값
     private String name;
     private String email;
 
+    /*
+     * 생성 메서드
+     * registrationId를 통해 서비스에 맞춰 OAuthAttributes 객체 생성 후 반환
+     */
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
                                      Map<String, Object> attributes) {
@@ -27,8 +31,8 @@ public class OAuthAttributes {
         return ofGoogle(userNameAttributeName, attributes);
     }
 
-    // OAuth2User에서 반환하는 사용자 정보는 map이기 때문에 값 하나하나를 변환
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        // OAuth2User에서 반환하는 사용자 정보는 map이기 때문에 값 하나하나를 변환
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -38,6 +42,7 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        // naver는 사용자 정보가 response를 키로 하는 map 형태로 넘어온다.
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributes.builder()
@@ -48,12 +53,14 @@ public class OAuthAttributes {
                 .build();
     }
 
-    // 가입 시 기본권한은 GUEST
+    /*
+     * 엔티티 변환
+     */
     public Member toEntity() {
         return Member.builder()
                 .name(name)
                 .email(email)
-                .role(Role.USER)
+                .role(Role.USER) // 가입 시 기본권한은 USER
                 .build();
     }
 }

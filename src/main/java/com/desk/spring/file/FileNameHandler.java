@@ -1,6 +1,6 @@
-package com.desk.spring.service;
+package com.desk.spring.file;
 
-import com.desk.spring.controller.dto.PhotoDto;
+import com.desk.spring.file.dto.PhotoRequestDto;
 import com.desk.spring.domain.Photo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class FileHandler {
+public class FileNameHandler {
 
     public List<Photo> parseFile(List<MultipartFile> multipartFiles) throws Exception {
         List<Photo> files = new ArrayList<>();
@@ -57,7 +57,7 @@ public class FileHandler {
                 }
 
                 String new_file_name = System.nanoTime() + origFileExtension;
-                PhotoDto photoDto = PhotoDto.builder()
+                PhotoRequestDto photoDto = PhotoRequestDto.builder()
                         .origName(multipartFile.getOriginalFilename())
                         .filePath(path + File.separator + new_file_name)
                         .fileSize(multipartFile.getSize())

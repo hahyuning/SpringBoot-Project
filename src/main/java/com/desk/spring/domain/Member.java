@@ -26,13 +26,13 @@ public class Member {
     private Role role;
 
     @OneToMany(mappedBy = "member")
-    private List<Board> boardList = new ArrayList<>();
+    private List<Board> myBoards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Comment> myComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Like> likeList = new ArrayList<>();
+    private List<Like> myLikes = new ArrayList<>();
 
     @Builder
     public Member(String name, String email, Role role) {
@@ -41,6 +41,9 @@ public class Member {
         this.role = role;
     }
 
+    /*
+     * 회원 정보 수정
+     */
     public Member update(String name) {
         this.name = name;
         return this;

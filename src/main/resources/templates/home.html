@@ -42,7 +42,7 @@
                 <a href="/oauth2/authorization/naver" class="btn btn-primary btn-block">네이버 로그인</a>
             </div>
             <div style="width:120px;margin:10px 0;float:left;">
-                <a href="/create" class="btn btn-primary btn-block">게시글 등록</a>
+                <a href="/board/create" class="btn btn-primary btn-block">게시글 등록</a>
             </div>
         </div>
     <br/>
@@ -60,7 +60,7 @@
             <tbody>
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.id}"></td>
-                <td><a th:href="'/detail/'+ ${board.id}" th:text="${board.title}"></a></td>
+                <td><a th:href="'/board/'+ ${board.id} + '/detail'" th:text="${board.title}"></a></td>
                 <td th:text="${board.writer}"></td>
                 <td th:text="${board.createdDate}"></td>
             </tr>

@@ -13,14 +13,17 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class MemberController {
+public class HomeController {
 
     private final BoardService boardService;
     private final HttpSession httpSession;
 
+    /*
+     * 홈화면
+     */
     @GetMapping("/")
     public String home(Model model) {
-        List<BoardResponseDto> boardList = boardService.readAll();
+        List<BoardResponseDto> boardList = boardService.findAll();
         model.addAttribute("boardList", boardList);
 
         SessionUser member = (SessionUser) httpSession.getAttribute("member");

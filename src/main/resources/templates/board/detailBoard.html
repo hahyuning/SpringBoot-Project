@@ -24,10 +24,10 @@
 <div class="container">
     <div class="row">
         <div th:if = "${memberId != null}" class="box">
-            <a th:href="'/update/'+ ${board.id}" class="btn btn-primary btn-block">수정</a>
+            <a th:href="'/board/'+ ${board.id} + '/update'" class="btn btn-primary btn-block">수정</a>
         </div>
         <div th:if = "${memberId != null}" class="box">
-            <a th:href="'/delete/'+ ${board.id}" class="btn btn-primary btn-block">삭제</a>
+            <a th:href="'/board/'+ ${board.id} + '/delete'" class="btn btn-primary btn-block">삭제</a>
         </div>
     </div>
     <div class="form-group row">
@@ -45,6 +45,41 @@
     <div class="form-group row">
     </div>
     <br>
+    <div style="width:120px;margin:auto;display:block;">
+        <a href="'/like/' + ${board.id}" class="btn btn-primary btn-block">좋아요</a>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>작성자</th>
+            <th>내용</th>
+            <th>작성날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${commentList}">
+            <td th:text="${comment.writer}"></td>
+            <td th:text="${comment.content}"></td>
+            <td th:text="${comment.createdDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <form action="/comment/create" method="post">
+        <input type="hidden" name="boardId" th:value="${board.id}">
+        <div class="form-group row">
+            <label for="inputTitle" class="col-sm-2 col-form-label"><strong>댓글</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="content" class="form-control" id="inputTitle">
+            </div>
+            <div style="width:120px;margin:10px 0;float:right;">
+                <input class="btn btn-primary" type="submit" role="button" value="댓글 등록">
+            </div>
+        </div>
+    </form>
+    <div style="width:120px;margin:10px 0;float:left;">
+        <a href="/" class="btn btn-primary btn-block">목록으로</a>
+    </div>
 </div>
 </body>
 </html>

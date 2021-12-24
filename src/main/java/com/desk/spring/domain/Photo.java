@@ -34,11 +34,14 @@ public class Photo {
         this.filePath = filePath;
     }
 
+    /*
+     * 연관관계 메서드
+     */
     public void setBoard(Board board) {
         this.board = board;
 
-        if (!board.getFiles().contains(this)) {
-            board.getFiles().add(this);
+        if (!board.getPhotos().contains(this)) {
+            board.getPhotos().add(this);
         }
     }
 }

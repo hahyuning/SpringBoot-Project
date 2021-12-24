@@ -1,13 +1,15 @@
 package com.desk.spring.service;
 
-import com.desk.spring.controller.dto.BoardDto;
+import com.desk.spring.controller.dto.BoardRequestDto;
 import com.desk.spring.controller.dto.BoardResponseDto;
 import com.desk.spring.domain.Board;
+import com.desk.spring.domain.LoginState;
 import com.desk.spring.domain.Member;
 import com.desk.spring.domain.Photo;
+import com.desk.spring.file.FileNameHandler;
 import com.desk.spring.repository.BoardRepository;
-import com.desk.spring.repository.FileRepository;
 import com.desk.spring.repository.MemberRepository;
+import com.desk.spring.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,87 +25,80 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final FileRepository fileRepository;
-    private final FileHandler fileHandler;
+    private final PhotoRepository photoRepository;
+    private final FileNameHandler fileNameHandler;
 
-    // 게시글 등록
+    /*
+     * 게시글 등록
+     */
     @Transactional
-    public Long create(BoardDto boardDto, List<MultipartFile> files) throws Exception {
-        Board board;
-        if (boardDto.getWriter() != null) {
-            Member member = memberRepository.findById(boardDto.getWriter()).get();
-            board = Board.builder()
-                .title(boardDto.getTitle())
-                .content(boardDto.getContent())
-                .member(member)
-                .build();
-        }
-        else {
-            board = Board.builder()
-                .title(boardDto.getTitle())
-                .content(boardDto.getContent())
-                .build();
+    public Long create(BoardRequestDto boardRequestDto, List<MultipartFile> files) throws Exception {
+        Board board = Board.createBoard(boardRequestDto);
+
+        // 작성자가 로그인한 회원일 경우
+        if (boardRequestDto.getLoginState() == LoginState.NAMED_USER) {
+            Member member = memberRepository.findById(boardRequestDto.getWriter()).get();
+            board.setMember(member);
         }
 
-        List<Photo> photos = fileHandler.parseFile(files);
+        // 첨부사진 리스트
+        List<Photo> photos = fileNameHandler.parseFile(files);
 
+        // board 엔티티에 사진 등록
         if (!photos.isEmpty()) {
             for (Photo photo : photos) {
-                board.addFile(fileRepository.save(photo));
+                board.addPhoto(photoRepository.save(photo));
             }
         }
+
+        // 게시글 저장
         boardRepository.save(board);
         return board.getId();
     }
 
-    // 게시글 하나 조회
+    /*
+     * 게시글 한건 조회
+     */
     public BoardResponseDto findById(Long boardId) {
-        List<Photo> files = fileRepository.findAllByBoardId(boardId);
-        List<Long> fileResults = new ArrayList<>();
+        // 첨부사진 조회
+        List<Photo> photos = photoRepository.findAllByBoardId(boardId);
 
-        for (Photo photo : files) {
-            fileResults.add(photo.getId());
+        // ???
+        List<Long> photoIds = new ArrayList<>();
+        for (Photo photo : photos) {
+            photoIds.add(photo.getId());
         }
 
+        // 게시글 조회
         Board board = boardRepository.findById(boardId);
-        BoardResponseDto boardResponseDto = new BoardResponseDto(board, fileResults);
-        if (board.getMember() == null) {
-            boardResponseDto.setWriter("ㅇㅇ");
-        }
-        else {
-            boardResponseDto.setWriter(board.getMember().getName());
-            boardResponseDto.setMemberId(board.getMember().getId());
-        }
-        return boardResponseDto;
+        return new BoardResponseDto(board, photoIds);
     }
 
-    // 게시글 삭제
+    /*
+     * 게시글 삭제
+     */
     @Transactional
     public void delete(Long boardId) {
         Board board = boardRepository.findById(boardId);
         boardRepository.delete(board);
     }
 
-    // 게시글 전체조회
-    public List<BoardResponseDto> readAll() {
-        List<Board> boardList = boardRepository.findAll();
+    /*
+     * 게시글 전체조회
+     */
+    public List<BoardResponseDto> findAll() {
+        List<Board> boards = boardRepository.findAll();
         List<BoardResponseDto> result = new ArrayList<>();
 
-        for (Board board : boardList) {
-            BoardResponseDto boardResponseDto = new BoardResponseDto(board);
-            if (board.getMember() == null) {
-                boardResponseDto.setWriter("ㅇㅇ");
-            }
-            else {
-                boardResponseDto.setWriter(board.getMember().getName());
-                boardResponseDto.setMemberId(board.getMember().getId());
-            }
-            result.add(boardResponseDto);
+        for (Board board : boards) {
+            result.add(new BoardResponseDto(board));
         }
         return result;
     }
 
-    // 게시글 수정
+    /*
+     * 게시글 수정
+     */
     @Transactional
     public void update(Long boardId, String title, String content) {
         Board board = boardRepository.findById(boardId);
