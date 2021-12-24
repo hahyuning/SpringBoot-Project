@@ -42,11 +42,11 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Like> likes = new ArrayList<>();
 
-    private Board(String title, String content, String ipAddress, LoginState loginState) {
-        this.title = title;
-        this.content = content;
-        this.ipAddress = ipAddress;
-        this.loginState = loginState;
+    public Board(BoardRequestDto boardRequestDto) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+        this.ipAddress = boardRequestDto.getIpAddress();
+        this.loginState = boardRequestDto.getLoginState();
     }
 
     /*
@@ -71,14 +71,5 @@ public class Board extends BaseTimeEntity {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    /*
-     * 게시글 생성
-     */
-    public static Board createBoard(BoardRequestDto boardRequestDto) {
-        Board board = new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(),
-                boardRequestDto.getIpAddress(), boardRequestDto.getLoginState());
-        return board;
     }
 }

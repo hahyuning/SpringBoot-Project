@@ -11,6 +11,9 @@ import com.desk.spring.repository.BoardRepository;
 import com.desk.spring.repository.MemberRepository;
 import com.desk.spring.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +36,7 @@ public class BoardService {
      */
     @Transactional
     public Long create(BoardRequestDto boardRequestDto, List<MultipartFile> files) throws Exception {
-        Board board = Board.createBoard(boardRequestDto);
+        Board board = new Board(boardRequestDto);
 
         // 작성자가 로그인한 회원일 경우
         if (boardRequestDto.getLoginState() == LoginState.NAMED_USER) {
@@ -70,8 +73,11 @@ public class BoardService {
         }
 
         // 게시글 조회
-        Board board = boardRepository.findById(boardId);
-        return new BoardResponseDto(board, photoIds);
+        Board board = boardRepository.findById(boardId).get();
+        BoardResponseDto boardResponseDto = new BoardResponseDto(board);
+
+        boardResponseDto.setFile(photoIds);
+        return boardResponseDto;
     }
 
     /*
@@ -79,20 +85,17 @@ public class BoardService {
      */
     @Transactional
     public void delete(Long boardId) {
-        Board board = boardRepository.findById(boardId);
-        boardRepository.delete(board);
+        boardRepository.deleteById(boardId);
     }
 
     /*
      * 게시글 전체조회
      */
-    public List<BoardResponseDto> findAll() {
-        List<Board> boards = boardRepository.findAll();
-        List<BoardResponseDto> result = new ArrayList<>();
+    public Page<BoardResponseDto> findAll(int page) {
 
-        for (Board board : boards) {
-            result.add(new BoardResponseDto(board));
-        }
+        Page<Board> boards = boardRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdDate")));
+        Page<BoardResponseDto> result = boards.map(BoardResponseDto::new);
+
         return result;
     }
 
@@ -101,7 +104,7 @@ public class BoardService {
      */
     @Transactional
     public void update(Long boardId, String title, String content) {
-        Board board = boardRepository.findById(boardId);
+        Board board = boardRepository.findById(boardId).get();
         board.update(title, content);
     }
 }

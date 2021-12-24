@@ -18,23 +18,6 @@ public class BoardResponseDto {
     private LocalDateTime createdDate;
     private List<Long> fileIdList;
 
-    public BoardResponseDto(Board board, List<Long> fileIdList) {
-        this.id = board.getId();
-        this.title = board.getTitle();
-        this.content = board.getContent();
-
-        if (board.getLoginState() == LoginState.NAMED_USER) {
-            this.writer = board.getMember().getName();
-            this.memberId = board.getMember().getId();
-        }
-        else {
-            this.writer = "ㅇㅇ(" + board.getIpAddress() + ")";
-        }
-
-        this.createdDate = board.getCreatedDate();
-        this.fileIdList = fileIdList;
-    }
-
     public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
@@ -49,5 +32,9 @@ public class BoardResponseDto {
 
         this.createdDate = board.getCreatedDate();
         this.content = board.getContent();
+    }
+
+    public void setFile(List<Long> fileIdList) {
+        this.fileIdList = fileIdList;
     }
 }

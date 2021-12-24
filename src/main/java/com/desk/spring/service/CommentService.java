@@ -32,7 +32,7 @@ public class CommentService {
     public void create(CommentRequestDto commentRequestDto) {
         Comment comment = new Comment(commentRequestDto);
 
-        Board board = boardRepository.findById(commentRequestDto.getBoardId());
+        Board board = boardRepository.findById(commentRequestDto.getBoardId()).get();
         comment.setBoard(board);
 
         if (commentRequestDto.getLoginState() == LoginState.NAMED_USER) {
