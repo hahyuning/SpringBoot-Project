@@ -16,6 +16,8 @@ Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
 - 댓글과 댓글에 대한 대댓글 기능
 
 # ER 다이어그램
+![image](https://user-images.githubusercontent.com/60869749/147410495-b95049d3-1f16-426f-9fa9-3d3e09cd9f9b.png)
+
 
 # 진행과정
 - 211213 ~ 211217: 프로젝트 설계
