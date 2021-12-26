@@ -31,7 +31,7 @@ public class HomeController {
         SessionUser member = (SessionUser) httpSession.getAttribute("member");
 
         if (member != null) {
-            model.addAttribute("memberName", member.getName());
+            model.addAttribute("member", member);
         }
         return "home";
     }

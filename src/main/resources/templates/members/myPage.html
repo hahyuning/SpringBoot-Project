@@ -25,7 +25,7 @@
 </head>
 <body>
 <div class="container">
-    <h2><span th:text="${memberName}"> 님의 마이 페이지</span></h2>
+    <h2><span th:text="${member.name}"> 님의 마이 페이지</span></h2>
     <br/><br/>
     <div class="row">
         <div class="box">
@@ -48,8 +48,8 @@
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.id}"></td>
                 <td><a th:href="'/board?id='+${board.id}" th:text="${board.title}"></a></td>
-                <td th:text="${board.dateTime} ?
-                    ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.dateTime}"></td>
+                <td th:text="${board.createdDate} ?
+                    ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.createdDate}"></td>
             </tr>
             </tbody>
         </table>
@@ -60,39 +60,22 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th class="col-md-5">content</th>
+                <th class="col-md-5">게시글 번호</th>
+                <th class="col-md-5">내용</th>
                 <th class="col-md-2">작성날짜</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="comment : ${commentList}">
+                <td><a th:href="'/board?id='+${comment.board.id}" th:text="${comment.board.id}"></a></td>
                 <td th:text="${comment.content}"></td>
-                <td th:text="${comment.dateTime} ?
-                    ${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm')} : ${comment.dateTime}"></td>
+                <td th:text="${comment.createdDate} ?
+                    ${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm')} : ${comment.createdDate}"></td>
             </tr>
             </tbody>
         </table>
     </div>
     <br/>
-    <h4>내가 좋아한 게시글</h4>
-    <div id="MyLike">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th class="col-md-2">번호</th>
-                <th class="col-md-5">제목</th>
-                <th class="col-md-2">작성자</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="like : ${likeList}">
-                <td th:text="${like.board.id}"></td>
-                <td><a th:href="'/like?id='+${like.id}" th:text="${like.board.title}"></a></td>
-                <td th:text="${like.board.writer}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 </body>
 </html>

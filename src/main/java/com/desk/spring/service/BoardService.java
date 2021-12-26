@@ -16,10 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,17 +35,18 @@ public class BoardService {
      * 게시글 등록
      */
     @Transactional
-    public Long create(BoardRequestDto boardRequestDto, List<MultipartFile> files) throws Exception {
+    public Long create(BoardRequestDto boardRequestDto) throws Exception {
         Board board = new Board(boardRequestDto);
 
         // 작성자가 로그인한 회원일 경우
         if (boardRequestDto.getLoginState() == LoginState.NAMED_USER) {
-            Member member = memberRepository.findById(boardRequestDto.getWriter()).get();
-            board.setMember(member);
+            Optional<Member> result = memberRepository.findById(boardRequestDto.getWriter());
+            result.ifPresent(board::setMember);
+
         }
 
         // 첨부사진 리스트
-        List<Photo> photos = fileNameHandler.parseFile(files);
+        List<Photo> photos = fileNameHandler.parseFileInfo(boardRequestDto.getFiles());
 
         // board 엔티티에 사진 등록
         if (!photos.isEmpty()) {

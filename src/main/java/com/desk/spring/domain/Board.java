@@ -33,10 +33,10 @@ public class Board extends BaseTimeEntity {
 
     private String ipAddress;
 
-    @OneToMany(mappedBy = "board", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Photo> photos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")

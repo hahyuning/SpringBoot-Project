@@ -27,7 +27,7 @@ public class BoardResponseDto {
             this.memberId = board.getMember().getId();
         }
         else {
-            this.writer = "ㅇㅇ(" + board.getIpAddress() + ")";
+            this.writer = "ㅇㅇ()";
         }
 
         this.createdDate = board.getCreatedDate();

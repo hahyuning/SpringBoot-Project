@@ -24,7 +24,7 @@ public class CommentResponseDto {
             this.writer = comment.getMember().getName();
         }
         else {
-            this.writer = "ㅇㅇ(" + comment.getIpAddress() + ")";
+            this.writer = "ㅇㅇ()";
         }
         this.boardId = boardId;
         this.parentId = parentId;

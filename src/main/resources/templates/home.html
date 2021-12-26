@@ -26,19 +26,19 @@
 <body>
 <div class="container">
     <h2>What's in My Desk?!</h2>
-    <div th:text="${memberName}" style="float:right"> 님이 로그인하셨습니다.</div>
+    <div th:if = "${member != null}" th:text="${member.name} + ' 님이 로그인하셨습니다.'" style="float:right"></div>
     <br/><br/>
         <div class="row">
-            <div th:if = "${memberName != null}" class="box">
-                <a href="/myPage" class="btn btn-primary btn-block">마이페이지</a>
+            <div th:if = "${member != null}" class="box">
+                <a th:href="'/myPage/' + ${member.id}" class="btn btn-primary btn-block">마이페이지</a>
             </div>
-            <div th:if = "${memberName != null}" class="box">
+            <div th:if = "${member != null}" class="box">
                 <a href="/logout" class="btn btn-primary btn-block">로그아웃</a>
             </div>
-            <div th:if = "${memberName == null}"  class="box">
+            <div th:if = "${member == null}"  class="box">
                 <a href="/oauth2/authorization/google" class="btn btn-primary btn-block">구글 로그인</a>
             </div>
-            <div th:if = "${memberName == null}" class="box">
+            <div th:if = "${member == null}" class="box">
                 <a href="/oauth2/authorization/naver" class="btn btn-primary btn-block">네이버 로그인</a>
             </div>
             <div style="width:120px;margin:10px 0;float:left;">
@@ -67,45 +67,22 @@
             </tbody>
         </table>
 
-        <nav aria-label="Page navigation" style="text-align:center;">
-            <ul class="pagination" th:with="startNumber=${T(Math).floor(boardList.number/10)}*10, endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
-                <li><a aria-label="Previous" href="/page=0">&laquo;</a></li>
-                <li th:style="${boardList.first} ? 'display:none'">
-                    <a th:href="@{/(page=${boardList.number})}">&lsaquo;</a>
-                </li>
+    <nav aria-label="Page navigation" style="text-align:center;">
+        <ul class="pagination" th:with="startNumber=${T(Math).floor(boardList.number/10)}*10+1, endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
+            <li><a aria-label="Previous" href="/?page=0">&laquo;</a></li>
+            <li th:style="${boardList.first} ? 'display:none'">
+                <a th:href="@{/(page=${boardList.number} - 1)}">&lsaquo;</a>
+            </li>
 
-                <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}) ? 'active'">
-                    <a th:href="@{/(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>
-                </li>
+            <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}+1) ? 'active'">
+                <a th:href="@{/(page=${page} - 1)}" th:text="${page}"><span class="sr-only"></span></a>
+            </li>
 
-                <li th:style="${boardList.last} ? 'display:none'">
-                    <a th:href="@{/(page=${boardList.number}+1)}">&rsaquo;</a>
-                </li>
-                <li><a aria-label="Next" th:href="@{/(page=${boardList.totalPages})}">&raquo;</a></li>
-            </ul>
-        </nav>
-
-    </div>
-</div>
-<br/>
-
-<!--<nav aria-label="Page navigation" style="text-align:center;">-->
-<!--    <ul class="pagination" th:with="startNumber=${T(Math).floor(boardList.number/10)}*10+1, -->
-<!--endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">-->
-<!--        <li><a aria-label="Previous" href="/board/list?page=1">&laquo;</a></li>-->
-<!--        <li th:style="${boardList.first} ? 'display:none'">-->
-<!--            <a th:href="@{/board/list(page=${boardList.number})}">&lsaquo;</a>-->
-<!--        </li>-->
-
-<!--        <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}+1) ? 'active'">-->
-<!--            <a th:href="@{/board/list(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>-->
-<!--        </li>-->
-
-<!--        <li th:style="${boardList.last} ? 'display:none'">-->
-<!--            <a th:href="@{/board/list(page=${boardList.number}+2)}">&rsaquo;</a>-->
-<!--        </li>-->
-<!--        <li><a aria-label="Next" th:href="@{/board/list(page=${boardList.totalPages})}">&raquo;</a></li>-->
-<!--    </ul>-->
-<!--</nav>-->
+            <li th:style="${boardList.last} ? 'display:none'">
+                <a th:href="@{/(page=${boardList.number} + 1)}">&rsaquo;</a>
+            </li>
+            <li><a aria-label="Next" th:href="@{/(page=${boardList.totalPages} - 1)}">&raquo;</a></li>
+        </ul>
+    </nav>
 </body>
 </html>

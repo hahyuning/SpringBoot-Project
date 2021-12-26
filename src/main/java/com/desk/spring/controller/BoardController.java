@@ -11,13 +11,14 @@ import com.desk.spring.util.ClientUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -41,9 +42,8 @@ public class BoardController {
      */
     @PostMapping("/board/create")
     public String createBoard(@ModelAttribute BoardRequestDto boardRequestDto,
-                              @RequestParam(value = "file", required = false) List<MultipartFile> files,
                               RedirectAttributes redirectAttributes,
-                              HttpServletRequest request) throws IOException {
+                              HttpServletRequest request) throws Exception {
 
         SessionUser member = (SessionUser) httpSession.getAttribute("member");
 
@@ -61,7 +61,7 @@ public class BoardController {
         boardRequestDto.setIpAddress(ipAddress);
 
         try {
-            Long boardId = boardService.create(boardRequestDto, files);
+            Long boardId = boardService.create(boardRequestDto);
             redirectAttributes.addAttribute("id", boardId);
             return "redirect:/board/{id}/detail";
         }

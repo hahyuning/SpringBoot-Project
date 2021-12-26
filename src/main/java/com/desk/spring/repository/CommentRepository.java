@@ -31,7 +31,7 @@ public class CommentRepository {
      * boardId로 댓글 조회
      */
     public List<Comment> findByBoardId(Long boardId) {
-        return em.createQuery("select c from Comment c inner join c.board b where b.id = :boardId", Comment.class)
+        return em.createQuery("select c from Comment c inner join fetch c.board b where b.id = :boardId", Comment.class)
                 .setParameter("boardId", boardId)
                 .getResultList();
     }
