@@ -26,8 +26,8 @@ public class CommentResponseDto {
         else {
             this.writer = "ㅇㅇ()";
         }
-        this.boardId = boardId;
-        this.parentId = parentId;
+        this.boardId = comment.getBoard().getId();
+        this.parentId = comment.getParent().getId();
         this.createdDate = comment.getCreatedDate();
     }
 }

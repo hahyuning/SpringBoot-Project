@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +33,19 @@ public class CommentService {
     public void create(CommentRequestDto commentRequestDto) {
         Comment comment = new Comment(commentRequestDto);
 
-        Board board = boardRepository.findById(commentRequestDto.getBoardId()).get();
-        comment.setBoard(board);
-
-        if (commentRequestDto.getLoginState() == LoginState.NAMED_USER) {
-            Member member = memberRepository.findById(commentRequestDto.getMemberId()).get();
-            comment.setMember(member);
+        Optional<Board> result = boardRepository.findById(commentRequestDto.getBoardId());
+        if (result.isPresent()) {
+            Board board = result.get();
+            comment.setBoard(board);
         }
 
+        if (commentRequestDto.getLoginState() == LoginState.NAMED_USER) {
+            Optional<Member> memberResult = memberRepository.findById(commentRequestDto.getMemberId());
+            if (memberResult.isPresent()) {
+                Member member = memberResult.get();
+                comment.setMember(member);
+            }
+        }
         commentRepository.save(comment);
     }
 
@@ -56,11 +62,9 @@ public class CommentService {
      * 전체 댓글 조회
      */
     public List<CommentResponseDto> findAll(Long boardId) {
-        System.out.println(boardId);
         List<Comment> comments = commentRepository.findByBoardId(boardId);
         List<CommentResponseDto> result = new ArrayList<>();
 
-        System.out.println("조회는 한듯");
         for (Comment comment : comments) {
             result.add(new CommentResponseDto(comment));
         }

@@ -74,11 +74,15 @@ public class BoardService {
         }
 
         // 게시글 조회
-        Board board = boardRepository.findById(boardId).get();
-        BoardResponseDto boardResponseDto = new BoardResponseDto(board);
+        Optional<Board> result = boardRepository.findById(boardId);
+        if (result.isPresent()) {
+            Board board = result.get();
+            BoardResponseDto boardResponseDto = new BoardResponseDto(board);
+            boardResponseDto.setFile(photoIds);
+            return boardResponseDto;
+        }
 
-        boardResponseDto.setFile(photoIds);
-        return boardResponseDto;
+        return null;
     }
 
     /*
@@ -95,9 +99,7 @@ public class BoardService {
     public Page<BoardResponseDto> findAll(int page) {
 
         Page<Board> boards = boardRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdDate")));
-        Page<BoardResponseDto> result = boards.map(BoardResponseDto::new);
-
-        return result;
+        return boards.map(BoardResponseDto::new);
     }
 
     /*
@@ -105,7 +107,11 @@ public class BoardService {
      */
     @Transactional
     public void update(Long boardId, String title, String content) {
-        Board board = boardRepository.findById(boardId).get();
-        board.update(title, content);
+
+        Optional<Board> result = boardRepository.findById(boardId);
+        if (result.isPresent()) {
+            Board board = result.get();
+            board.update(title, content);
+        }
     }
 }
