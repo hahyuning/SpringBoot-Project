@@ -32,3 +32,4 @@ Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
 - 다중 이미지 첨부와 조회, 수정, 삭제 기능
 - 댓글에 대한 대댓글 기능
 - 관심 게시글 기능
+- 세션 저장소
