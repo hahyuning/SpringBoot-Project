@@ -2,8 +2,8 @@ package com.desk.spring.config.oauth;
 
 import com.desk.spring.config.oauth.dto.OAuthAttributes;
 import com.desk.spring.config.oauth.dto.SessionUser;
-import com.desk.spring.domain.Member;
-import com.desk.spring.repository.MemberRepository;
+import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

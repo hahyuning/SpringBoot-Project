@@ -1,6 +1,13 @@
-package com.desk.spring.domain;
+package com.desk.spring.domain.board;
 
-import com.desk.spring.controller.dto.BoardRequestDto;
+import com.desk.spring.domain.comment.Comment;
+import com.desk.spring.web.dto.BoardRequestDto;
+import com.desk.spring.domain.*;
+import com.desk.spring.domain.like.Like;
+import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.photo.Photo;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +49,7 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board")
     private List<Like> likes = new ArrayList<>();
 
+    @Builder
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
@@ -49,7 +57,7 @@ public class Board extends BaseTimeEntity {
         this.loginState = boardRequestDto.getLoginState();
     }
 
-    /*
+    /**
      * 연관관계 메서드
      */
     public void addPhoto(Photo photo) {
@@ -65,7 +73,7 @@ public class Board extends BaseTimeEntity {
         member.getMyBoards().add(this);
     }
 
-    /*
+    /**
      * 게시글 수정
      */
     public void update(String title, String content) {

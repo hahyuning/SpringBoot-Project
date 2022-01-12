@@ -1,14 +1,14 @@
 package com.desk.spring.service;
 
-import com.desk.spring.controller.dto.CommentRequestDto;
-import com.desk.spring.controller.dto.CommentResponseDto;
-import com.desk.spring.domain.Board;
-import com.desk.spring.domain.Comment;
-import com.desk.spring.domain.LoginState;
-import com.desk.spring.domain.Member;
-import com.desk.spring.repository.BoardRepository;
-import com.desk.spring.repository.CommentRepository;
-import com.desk.spring.repository.MemberRepository;
+import com.desk.spring.web.dto.CommentRequestDto;
+import com.desk.spring.web.dto.CommentResponseDto;
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.comment.Comment;
+import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.board.BoardRepository;
+import com.desk.spring.domain.comment.CommentRepository;
+import com.desk.spring.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

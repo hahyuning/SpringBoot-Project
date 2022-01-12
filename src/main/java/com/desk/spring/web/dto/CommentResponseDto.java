@@ -1,8 +1,7 @@
-package com.desk.spring.controller.dto;
+package com.desk.spring.web.dto;
 
-import com.desk.spring.domain.Comment;
-import com.desk.spring.domain.LoginState;
-import lombok.Builder;
+import com.desk.spring.domain.comment.Comment;
+import com.desk.spring.domain.member.LoginState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ public class CommentResponseDto {
     private Long boardId;
     private Long parentId;
 
-    @Builder
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         if (comment.getLoginState() == LoginState.NAMED_USER) {

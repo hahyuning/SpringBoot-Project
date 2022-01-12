@@ -1,8 +1,8 @@
-package com.desk.spring.controller;
+package com.desk.spring.web.controller;
 
 import com.desk.spring.config.oauth.dto.SessionUser;
-import com.desk.spring.controller.dto.CommentRequestDto;
-import com.desk.spring.domain.LoginState;
+import com.desk.spring.web.dto.CommentRequestDto;
+import com.desk.spring.domain.member.LoginState;
 import com.desk.spring.service.CommentService;
 import com.desk.spring.util.ClientUtils;
 import lombok.RequiredArgsConstructor;

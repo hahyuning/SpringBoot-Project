@@ -1,7 +1,7 @@
 package com.desk.spring.config.oauth.dto;
 
-import com.desk.spring.domain.Member;
-import com.desk.spring.domain.Role;
+import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.member.Role;
 import lombok.Builder;
 import lombok.Getter;
 

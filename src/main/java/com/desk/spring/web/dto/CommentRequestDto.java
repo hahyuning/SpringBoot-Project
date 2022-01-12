@@ -1,6 +1,6 @@
-package com.desk.spring.controller.dto;
+package com.desk.spring.web.dto;
 
-import com.desk.spring.domain.LoginState;
+import com.desk.spring.domain.member.LoginState;
 import lombok.Builder;
 import lombok.Data;
 

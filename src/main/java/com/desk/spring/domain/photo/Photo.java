@@ -1,13 +1,14 @@
-package com.desk.spring.domain;
+package com.desk.spring.domain.photo;
 
+import com.desk.spring.domain.board.Board;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 public class Photo {
 
@@ -28,6 +29,7 @@ public class Photo {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @Builder
     public Photo(String origName, String filePath, Long fileSize) {
         this.origName = origName;
         this.fileSize = fileSize;

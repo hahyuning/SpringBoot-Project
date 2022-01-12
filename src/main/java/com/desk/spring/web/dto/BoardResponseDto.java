@@ -1,7 +1,7 @@
-package com.desk.spring.controller.dto;
+package com.desk.spring.web.dto;
 
-import com.desk.spring.domain.Board;
-import com.desk.spring.domain.LoginState;
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.member.LoginState;
 import lombok.Data;
 
 import java.time.LocalDateTime;

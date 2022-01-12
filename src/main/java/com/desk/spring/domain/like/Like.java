@@ -1,5 +1,8 @@
-package com.desk.spring.domain;
+package com.desk.spring.domain.like;
 
+import com.desk.spring.domain.BaseTimeEntity;
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.member.Member;
 import lombok.Getter;
 
 import javax.persistence.*;

@@ -1,6 +1,5 @@
-package com.desk.spring.repository;
+package com.desk.spring.domain.comment;
 
-import com.desk.spring.domain.Comment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

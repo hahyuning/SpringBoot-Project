@@ -1,7 +1,12 @@
-package com.desk.spring.domain;
+package com.desk.spring.domain.comment;
 
 
-import com.desk.spring.controller.dto.CommentRequestDto;
+import com.desk.spring.web.dto.CommentRequestDto;
+import com.desk.spring.domain.BaseTimeEntity;
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.member.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +49,7 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<Comment> child = new ArrayList<>();
 
+    @Builder
     public Comment(CommentRequestDto commentRequestDto) {
         this.content = commentRequestDto.getContent();
         this.ipAddress = commentRequestDto.getIpAddress();

@@ -1,10 +1,10 @@
-package com.desk.spring.controller;
+package com.desk.spring.web.controller;
 
 import com.desk.spring.config.oauth.dto.SessionUser;
-import com.desk.spring.controller.dto.BoardRequestDto;
-import com.desk.spring.controller.dto.BoardResponseDto;
-import com.desk.spring.controller.dto.CommentResponseDto;
-import com.desk.spring.domain.LoginState;
+import com.desk.spring.web.dto.BoardRequestDto;
+import com.desk.spring.web.dto.BoardResponseDto;
+import com.desk.spring.web.dto.CommentResponseDto;
+import com.desk.spring.domain.member.LoginState;
 import com.desk.spring.service.BoardService;
 import com.desk.spring.service.CommentService;
 import com.desk.spring.util.ClientUtils;

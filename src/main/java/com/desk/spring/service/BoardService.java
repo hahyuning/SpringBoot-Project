@@ -1,15 +1,15 @@
 package com.desk.spring.service;
 
-import com.desk.spring.controller.dto.BoardRequestDto;
-import com.desk.spring.controller.dto.BoardResponseDto;
-import com.desk.spring.domain.Board;
-import com.desk.spring.domain.LoginState;
-import com.desk.spring.domain.Member;
-import com.desk.spring.domain.Photo;
-import com.desk.spring.file.FileNameHandler;
-import com.desk.spring.repository.BoardRepository;
-import com.desk.spring.repository.MemberRepository;
-import com.desk.spring.repository.PhotoRepository;
+import com.desk.spring.web.dto.BoardRequestDto;
+import com.desk.spring.web.dto.BoardResponseDto;
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.photo.Photo;
+import com.desk.spring.web.file.FileNameHandler;
+import com.desk.spring.domain.board.BoardRepository;
+import com.desk.spring.domain.member.MemberRepository;
+import com.desk.spring.domain.photo.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +42,6 @@ public class BoardService {
         if (boardRequestDto.getLoginState() == LoginState.NAMED_USER) {
             Optional<Member> result = memberRepository.findById(boardRequestDto.getWriter());
             result.ifPresent(board::setMember);
-
         }
 
         // 첨부사진 리스트

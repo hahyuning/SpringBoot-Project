@@ -1,5 +1,8 @@
-package com.desk.spring.domain;
+package com.desk.spring.domain.member;
 
+import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.comment.Comment;
+import com.desk.spring.domain.like.Like;
 import lombok.*;
 
 import javax.persistence.*;
