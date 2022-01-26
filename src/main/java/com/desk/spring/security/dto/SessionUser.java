@@ -1,6 +1,6 @@
-package com.desk.spring.config.oauth.dto;
+package com.desk.spring.security.dto;
 
-import com.desk.spring.domain.member.Member;
+import com.desk.spring.domain.Member;
 import lombok.Getter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;

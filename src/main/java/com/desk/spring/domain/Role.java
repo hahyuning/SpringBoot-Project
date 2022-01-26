@@ -1,4 +1,4 @@
-package com.desk.spring.domain.member;
+package com.desk.spring.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

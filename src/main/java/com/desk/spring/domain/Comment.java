@@ -1,11 +1,7 @@
-package com.desk.spring.domain.comment;
+package com.desk.spring.domain;
 
 
 import com.desk.spring.web.dto.CommentRequestDto;
-import com.desk.spring.domain.BaseTimeEntity;
-import com.desk.spring.domain.board.Board;
-import com.desk.spring.domain.member.LoginState;
-import com.desk.spring.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

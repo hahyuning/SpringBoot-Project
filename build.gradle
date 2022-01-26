@@ -21,7 +21,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-com.desk.spring.web'
+	implementation 'org.springframework:spring-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	// jpa
@@ -31,17 +32,18 @@ dependencies {
 	// 서버 재시작 없이 html 컴파일 만으로 view 파일 변경
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	// sql 실행 파라미터를 로그로 남김
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
 	// 스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	// 파일 업로드
-	implementation 'commons-io:commons-io:2.6'
+	implementation 'commons-io:commons-io'
 	// querydsl
     // implementation 'com.querydsl:querydsl-jpa'
 	// 세션 저장소
 	compileOnly 'org.springframework.session:spring-session-jdbc'
 	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

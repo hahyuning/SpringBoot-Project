@@ -1,4 +1,4 @@
-package com.desk.spring.config.oauth;
+package com.desk.spring.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;

@@ -1,7 +1,7 @@
 package com.desk.spring.web.dto;
 
-import com.desk.spring.domain.comment.Comment;
-import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.Comment;
+import com.desk.spring.domain.LoginState;
 import lombok.Data;
 
 import java.time.LocalDateTime;

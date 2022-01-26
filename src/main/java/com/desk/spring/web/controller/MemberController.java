@@ -1,7 +1,7 @@
 package com.desk.spring.web.controller;
 
-import com.desk.spring.domain.member.Member;
-import com.desk.spring.domain.member.MemberRepository;
+import com.desk.spring.domain.Member;
+import com.desk.spring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

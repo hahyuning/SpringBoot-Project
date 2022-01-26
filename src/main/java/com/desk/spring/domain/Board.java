@@ -1,12 +1,6 @@
-package com.desk.spring.domain.board;
+package com.desk.spring.domain;
 
-import com.desk.spring.domain.comment.Comment;
 import com.desk.spring.web.dto.BoardRequestDto;
-import com.desk.spring.domain.*;
-import com.desk.spring.domain.like.Like;
-import com.desk.spring.domain.member.LoginState;
-import com.desk.spring.domain.member.Member;
-import com.desk.spring.domain.photo.Photo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

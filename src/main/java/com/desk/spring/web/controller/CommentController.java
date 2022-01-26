@@ -1,10 +1,11 @@
 package com.desk.spring.web.controller;
 
-import com.desk.spring.config.oauth.dto.SessionUser;
-import com.desk.spring.web.dto.CommentRequestDto;
-import com.desk.spring.domain.member.LoginState;
+import com.desk.spring.domain.LoginState;
+import com.desk.spring.security.LoginUser;
+import com.desk.spring.security.dto.SessionUser;
 import com.desk.spring.service.CommentService;
 import com.desk.spring.util.ClientUtils;
+import com.desk.spring.web.dto.CommentRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,13 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final HttpSession httpSession;
     private final CommentService commentService;
 
     /*
@@ -27,11 +26,12 @@ public class CommentController {
     @PostMapping("/comment/create")
     public String create(@ModelAttribute CommentRequestDto commentRequestDto,
                          RedirectAttributes redirectAttributes,
-                         HttpServletRequest request) {
-        SessionUser member = (SessionUser) httpSession.getAttribute("member");
+                         HttpServletRequest request,
+                         @LoginUser SessionUser user) {
 
-        if (member != null) {
-            commentRequestDto.setMemberId(member.getId());
+
+        if (user != null) {
+            commentRequestDto.setMemberId(user.getId());
             commentRequestDto.setLoginState(LoginState.NAMED_USER);
         }
         else {

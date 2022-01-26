@@ -1,6 +1,6 @@
-package com.desk.spring.domain.photo;
+package com.desk.spring.domain;
 
-import com.desk.spring.domain.board.Board;
+import com.desk.spring.domain.Board;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

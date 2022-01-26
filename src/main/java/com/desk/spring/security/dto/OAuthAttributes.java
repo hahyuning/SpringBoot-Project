@@ -1,7 +1,7 @@
-package com.desk.spring.config.oauth.dto;
+package com.desk.spring.security.dto;
 
-import com.desk.spring.domain.member.Member;
-import com.desk.spring.domain.member.Role;
+import com.desk.spring.domain.Member;
+import com.desk.spring.domain.Role;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -53,9 +53,6 @@ public class OAuthAttributes {
                 .build();
     }
 
-    /*
-     * 엔티티 변환
-     */
     public Member toEntity() {
         return Member.builder()
                 .name(name)
