@@ -30,9 +30,9 @@ dependencies {
 	// 타임리프
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	// 서버 재시작 없이 html 컴파일 만으로 view 파일 변경
-	// implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-devtools'
 	// sql 실행 파라미터를 로그로 남김
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
+	// implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
 	// 스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
