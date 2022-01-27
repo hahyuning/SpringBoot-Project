@@ -40,13 +40,14 @@ public class HomeController {
     @PostConstruct
     public void init() {
         for (int i = 0; i < 50; i++) {
-            BoardRequestDto boardRequestDto = new BoardRequestDto();
-            boardRequestDto.setTitle("test");
-            boardRequestDto.setContent("test");
-            boardRequestDto.setIpAddress("127.0.0.0");
+            BoardRequestDto boardRequestDto = BoardRequestDto
+                    .builder()
+                    .title("test")
+                    .content("test")
+                    .build();
 
             try {
-                boardService.create(boardRequestDto);
+                boardService.create(boardRequestDto, null);
             }
             catch (Exception e) {
                 e.printStackTrace();

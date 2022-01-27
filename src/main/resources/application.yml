@@ -32,6 +32,6 @@ spring:
     init:
       mode: always
 
-loggin:
+logging:
   level:
     org.hibernate.SQL: debug

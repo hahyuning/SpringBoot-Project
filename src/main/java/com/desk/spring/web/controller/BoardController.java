@@ -10,17 +10,18 @@ import com.desk.spring.web.dto.BoardRequestDto;
 import com.desk.spring.web.dto.BoardResponseDto;
 import com.desk.spring.web.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
@@ -40,33 +41,35 @@ public class BoardController {
      * 게시글 등록
      */
     @PostMapping("/board/create")
-    public String createBoard(@ModelAttribute BoardRequestDto boardRequestDto,
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createBoard(@RequestParam(value = "title") String title,
+                              @RequestParam(value = "content") String content,
+                              @RequestParam(value = "image", required = false) MultipartFile[] files,
                               RedirectAttributes redirectAttributes,
                               HttpServletRequest request,
-                              @LoginUser SessionUser user) throws Exception {
+                              @LoginUser SessionUser user) {
+
+        BoardRequestDto requestDto = BoardRequestDto
+                .builder()
+                .title(title)
+                .content(content).build();
 
         // 로그인한 사용자일 경우 writer 등록
         if (user != null) {
-            boardRequestDto.setWriter(user.getId());
-            boardRequestDto.setLoginState(LoginState.NAMED_USER);
+            requestDto.setWriter(user.getId());
+            requestDto.setLoginState(LoginState.NAMED_USER);
         }
         else {
-            boardRequestDto.setLoginState(LoginState.ANONYMOUS);
+            requestDto.setLoginState(LoginState.ANONYMOUS);
         }
 
         // ip 주소 가져오기
         String ipAddress = ClientUtils.getRemoteIp(request);
-        boardRequestDto.setIpAddress(ipAddress);
+        requestDto.setIpAddress(ipAddress);
 
-        try {
-            Long boardId = boardService.create(boardRequestDto);
-            redirectAttributes.addAttribute("id", boardId);
-            return "redirect:/board/{id}/detail";
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/board/create";
-        }
+        Long boardId = boardService.create(requestDto, files);
+        redirectAttributes.addAttribute("id", boardId);
+        return "redirect:/board/{id}/detail";
     }
 
     /*

@@ -1,7 +1,6 @@
 package com.desk.spring.domain;
 
-import com.desk.spring.domain.Board;
-import lombok.Builder;
+import com.desk.spring.web.dto.PhotoDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,19 +20,18 @@ public class Photo {
     private String origName;
 
     @Column(nullable = false)
-    private String filePath;
+    private String saveName;
 
     private Long fileSize;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @Builder
-    public Photo(String origName, String filePath, Long fileSize) {
-        this.origName = origName;
-        this.fileSize = fileSize;
-        this.filePath = filePath;
+    public Photo(PhotoDto photoDto) {
+        this.origName = photoDto.getOrigFileName();
+        this.saveName = photoDto.getSaveName();
+        this.fileSize = photoDto.getFileSize();
     }
 
     /*

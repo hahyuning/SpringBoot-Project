@@ -1,25 +1,29 @@
 package com.desk.spring.service;
 
-import com.desk.spring.web.dto.BoardRequestDto;
-import com.desk.spring.web.dto.BoardResponseDto;
 import com.desk.spring.domain.Board;
 import com.desk.spring.domain.LoginState;
 import com.desk.spring.domain.Member;
 import com.desk.spring.domain.Photo;
-import com.desk.spring.web.file.FileNameHandler;
+import com.desk.spring.web.dto.PhotoDto;
 import com.desk.spring.repository.BoardRepository;
 import com.desk.spring.repository.MemberRepository;
 import com.desk.spring.repository.PhotoRepository;
+import com.desk.spring.util.FileUtils;
+import com.desk.spring.web.dto.BoardRequestDto;
+import com.desk.spring.web.dto.BoardResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,28 +33,31 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final PhotoRepository photoRepository;
-    private final FileNameHandler fileNameHandler;
+    private final FileUtils fileUtils;
 
     /*
      * 게시글 등록
      */
     @Transactional
-    public Long create(BoardRequestDto boardRequestDto) throws Exception {
-        Board board = new Board(boardRequestDto);
+    public Long create(BoardRequestDto boardDto, MultipartFile[] files) {
+        Board board = new Board(boardDto);
 
         // 작성자가 로그인한 회원일 경우
-        if (boardRequestDto.getLoginState() == LoginState.NAMED_USER) {
-            Optional<Member> result = memberRepository.findById(boardRequestDto.getWriter());
+        if (boardDto.getLoginState() == LoginState.NAMED_USER) {
+            Optional<Member> result = memberRepository.findById(boardDto.getWriter());
             result.ifPresent(board::setMember);
         }
 
         // 첨부사진 리스트
-        List<Photo> photos = fileNameHandler.parseFileInfo(boardRequestDto.getFiles());
+        List<PhotoDto> photoDtos = fileUtils.uploadPhotos(files, board.getId());
+        List<Photo> photos = photoDtos.stream()
+                .map(Photo::new).collect(Collectors.toList());
 
         // board 엔티티에 사진 등록
-        if (!photos.isEmpty()) {
+        if (!CollectionUtils.isEmpty(photos)) {
             for (Photo photo : photos) {
-                board.addPhoto(photoRepository.save(photo));
+                photoRepository.save(photo);
+                board.addPhoto(photo);
             }
         }
 

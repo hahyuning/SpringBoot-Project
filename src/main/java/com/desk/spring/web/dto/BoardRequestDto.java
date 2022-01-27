@@ -1,12 +1,11 @@
 package com.desk.spring.web.dto;
 
 import com.desk.spring.domain.LoginState;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Data
+@Builder
 public class BoardRequestDto {
 
     private Long id;
@@ -15,6 +14,5 @@ public class BoardRequestDto {
     private Long writer;
     private LoginState loginState;
     private String ipAddress;
-    private List<MultipartFile> files;
 
 }
