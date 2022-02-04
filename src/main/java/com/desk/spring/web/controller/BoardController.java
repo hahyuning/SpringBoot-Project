@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -45,23 +44,23 @@ public class BoardController {
         return "/board/boardList";
     }
 
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 50; i++) {
-            BoardRequestDto boardRequestDto = BoardRequestDto
-                    .builder()
-                    .title("test")
-                    .content("test")
-                    .build();
-
-            try {
-                boardService.create(boardRequestDto, null);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        for (int i = 0; i < 50; i++) {
+//            BoardRequestDto boardRequestDto = BoardRequestDto
+//                    .builder()
+//                    .title("test")
+//                    .content("test")
+//                    .build();
+//
+//            try {
+//                boardService.create(boardRequestDto, null);
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     /*
      * 게시글 작성 폼

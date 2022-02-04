@@ -5,6 +5,7 @@ import com.desk.spring.domain.LoginState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class CommentResponseDto {
@@ -15,6 +16,7 @@ public class CommentResponseDto {
     private String writer;
     private Long boardId;
     private Long parentId;
+    private List<CommentResponseDto> child;
 
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
@@ -25,7 +27,9 @@ public class CommentResponseDto {
             this.writer = "ㅇㅇ()";
         }
         this.boardId = comment.getBoard().getId();
-        this.parentId = comment.getParent().getId();
+        if (comment.getParent() != null) {
+            this.parentId = comment.getParent().getId();
+        }
         this.createdDate = comment.getCreatedDate();
     }
 }
