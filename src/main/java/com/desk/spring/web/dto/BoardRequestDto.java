@@ -14,5 +14,4 @@ public class BoardRequestDto {
     private Long writer;
     private LoginState loginState;
     private String ipAddress;
-
 }

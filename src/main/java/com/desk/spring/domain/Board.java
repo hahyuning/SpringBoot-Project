@@ -40,9 +40,6 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board", cascade = {CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
-    private List<Like> likes = new ArrayList<>();
-
     @Builder
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();

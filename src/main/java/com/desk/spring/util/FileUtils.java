@@ -2,6 +2,7 @@ package com.desk.spring.util;
 
 import com.desk.spring.web.dto.PhotoDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,7 @@ public class FileUtils {
 
         for (MultipartFile photo : photos) {
             try {
-                final String extension = org.apache.logging.log4j.core.util.FileUtils.getFileExtension((File) photo);
+                final String extension = FilenameUtils.getExtension(photo.getOriginalFilename());
                 final String saveName = getRandomString() + "." + extension;
 
                 File target = new File(uploadPath, saveName);

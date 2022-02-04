@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="board/layout/basic">
+<th:block layout:fragment="title">
+    <title>this is list page</title>
+</th:block>
+
+<!--<th:block layout:fragment="search">-->
+<!--    <div th:replace="board/fragments/common :: search"></div>-->
+<!--</th:block>-->
+
+<th:block layout:fragment="content">
+    <th:block layout:fragment="login">
+        <div th:replace="board/fragments/common :: login"></div>
+    </th:block>
+
+    <div class="table-responsive clearfix">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+<!--                <th>조회 수</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
+                <td scope="row" th:text="${row.id}"></td>
+                <td class="text-left">
+                    <a th:href="'/board/'+ ${row.id} + '/detail'" th:text="${row.title}"></a>
+                </td>
+                <td th:text="${row.writer}"></td>
+                <td th:text="${#temporals.format( row.createdDate, 'yyyy-MM-dd' )}"></td>
+<!--                <td th:text="${row.viewCnt}"></td>-->
+            </tr>
+<!--            <tr th:unless="${not #lists.isEmpty( boardList )}">-->
+<!--                <td colspan="5">조회된 결과가 없습니다.</td>-->
+<!--            </tr>-->
+            </tbody>
+        </table>
+
+        <div class="btn_wrap text-right">
+            <a th:href="@{/board/create}" class="btn btn-primary waves-effect waves-light">Write</a>
+        </div>
+
+        <<nav aria-label="Page navigation" style="text-align:center;">
+        <ul class="pagination" th:with="startNumber=${T(Math).floor(boardList.number/10)}*10+1, endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
+            <li><a aria-label="Previous" href="/?page=0">&laquo;</a></li>
+            <li th:style="${boardList.first} ? 'display:none'">
+                <a th:href="@{/(page=${boardList.number} - 1)}">&lsaquo;</a>
+            </li>
+
+            <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}+1) ? 'active'">
+                <a th:href="@{/(page=${page} - 1)}" th:text="${page}"><span class="sr-only"></span></a>
+            </li>
+
+            <li th:style="${boardList.last} ? 'display:none'">
+                <a th:href="@{/(page=${boardList.number} + 1)}">&rsaquo;</a>
+            </li>
+            <li><a aria-label="Next" th:href="@{/(page=${boardList.totalPages} - 1)}">&raquo;</a></li>
+        </ul>
+    </nav>
+    </div>
+</th:block>
+
+<!--<th:block layout:fragment="script">-->
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+
+<!--        function movePage(uri, queryString) {-->
+<!--            location.href = uri + queryString;-->
+<!--        }-->
+
+<!--        function searchBoard(form) {-->
+<!--            /*[- 드롭다운이 아닌 메인 검색 키워드로 검색했을 때 -]*/-->
+<!--            if (isEmpty(form) == true) {-->
+<!--                var searchKeyword = document.getElementById("mainSearchKeyword");-->
+<!--                if (isEmpty(searchKeyword.value) == true) {-->
+<!--                    alert("키워드를 입력해 주세요.");-->
+<!--                    searchKeyword.focus();-->
+<!--                    return false;-->
+<!--                }-->
+
+<!--                form = document.getElementById("searchForm");-->
+<!--                form.searchKeyword.value = searchKeyword.value;-->
+<!--                form.submit();-->
+<!--            }-->
+
+<!--            if (isEmpty(form.searchKeyword.value) == true) {-->
+<!--                alert("키워드를 입력해 주세요.");-->
+<!--                form.searchKeyword.focus();-->
+<!--                return false;-->
+<!--            }-->
+<!--        }-->
+<!--        /*[- end of function -]*/-->
+
+<!--        /*]]>*/-->
+<!--    </script>-->
+<!--</th:block>-->
+</html>

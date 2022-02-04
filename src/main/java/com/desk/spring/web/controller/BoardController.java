@@ -11,14 +11,16 @@ import com.desk.spring.web.dto.BoardResponseDto;
 import com.desk.spring.web.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +30,38 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+
+    @GetMapping("/")
+    public String home(Model model,
+                       @RequestParam(required = false, defaultValue = "0", value = "page") int page,
+                       @LoginUser SessionUser user) {
+        Page<BoardResponseDto> boardList = boardService.findAll(page);
+        boardList.stream().forEach(BoardResponseDto::getContent);
+        model.addAttribute("boardList", boardList);
+
+        if (user != null) {
+            model.addAttribute("member", user);
+        }
+        return "/board/boardList";
+    }
+
+    @PostConstruct
+    public void init() {
+        for (int i = 0; i < 50; i++) {
+            BoardRequestDto boardRequestDto = BoardRequestDto
+                    .builder()
+                    .title("test")
+                    .content("test")
+                    .build();
+
+            try {
+                boardService.create(boardRequestDto, null);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /*
      * 게시글 작성 폼
@@ -44,9 +78,9 @@ public class BoardController {
     @ResponseStatus(HttpStatus.CREATED)
     public String createBoard(@RequestParam(value = "title") String title,
                               @RequestParam(value = "content") String content,
-                              @RequestParam(value = "image", required = false) MultipartFile[] files,
+                              MultipartFile[] files,
                               RedirectAttributes redirectAttributes,
-                              HttpServletRequest request,
+                              MultipartHttpServletRequest request,
                               @LoginUser SessionUser user) {
 
         BoardRequestDto requestDto = BoardRequestDto
