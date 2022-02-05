@@ -28,9 +28,9 @@ spring:
       maxFileSize: 10MB
       maxRequestSize: 20MB
 
-  sql:
-    init:
-      mode: always
+#   sql:
+#     init:
+#       mode: always
 
 logging:
   level:
