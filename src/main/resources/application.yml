@@ -8,10 +8,10 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+    
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -28,9 +28,9 @@ spring:
       maxFileSize: 10MB
       maxRequestSize: 20MB
 
-  sql:
-    init:
-      mode: always
+#   sql:
+#     init:
+#       mode: always
 
 logging:
   level:
