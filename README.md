@@ -1,7 +1,7 @@
 # SpringBoot-project
 
 # 사용기술
-Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
+Java, Spring Boot, Spring Security, Spring Data JPA, OAuth2, JPA, MySQL
 
 # 구현 기능
 #### 계정
@@ -12,7 +12,7 @@ Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
 #### 게시판
 - 게시글 등록, 조회, 수정, 삭제
 - 전체 게시글에 대한 페이징과 최신순 정렬
-- 게시글에 대한 댓글 기능
+- 게시글에 대한 댓글과 댓글에 대한 대댓글 기능
 - 로그인하지 않은 사용자의 익명 게시글, 익명 댓글 기능
 
 # ER 다이어그램
@@ -28,8 +28,7 @@ Java11, Spring Boot, OAuth2, JPA, Data JPA, MySQL
 - 211226: 마이 페이지 기능 구현
 - 220112: 도메인 주도 설계 리팩터링
 
-# 추가할 것
-- 다중 이미지 첨부와 조회, 수정, 삭제 기능
-- 댓글에 대한 대댓글 기능
-- 관심 게시글 기능
-- 세션 저장소
+# 추가한 기능
+- 다중 이미지 첨부와 조회, 수정, 삭제 기능 구현
+- 댓글에 대한 대댓글 기능 구현
+- 세션 저장소 기능
