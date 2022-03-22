@@ -15,9 +15,11 @@ Java, Spring Boot, Spring Security, Spring Data JPA, OAuth2, JPA, MySQL
 - 게시글에 대한 댓글과 댓글에 대한 대댓글 기능
 - 로그인하지 않은 사용자의 익명 게시글, 익명 댓글 기능
 
-# ER 다이어그램
-![image](https://user-images.githubusercontent.com/60869749/147410495-b95049d3-1f16-426f-9fa9-3d3e09cd9f9b.png)
+# 클래스 다이어그램
+![image](https://user-images.githubusercontent.com/60869749/159413812-e6a33c0a-bc9d-4231-81ad-fc52115ae651.png)
 
+# 디렉터리 구조
+![image](https://user-images.githubusercontent.com/60869749/159414028-d17a403f-f7e7-4548-a360-ec27cd5e19d7.png)
 
 # 진행과정
 - 211213 ~ 211217: 프로젝트 설계
