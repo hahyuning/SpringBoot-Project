@@ -1,9 +1,13 @@
 # SpringBoot-project
 
-# 사용기술
+<br>
+
+## 사용기술
 Java, Spring Boot, Spring Security, Spring Data JPA, OAuth2, JPA, MySQL
 
-# 구현 기능
+<br>
+
+## 구현 기능
 #### 계정
 - OAuth2를 이용한 소셜 로그인과 회원 정보 관리
 - 로그인한 사용자에 대한 세션 관리
@@ -15,13 +19,17 @@ Java, Spring Boot, Spring Security, Spring Data JPA, OAuth2, JPA, MySQL
 - 게시글에 대한 댓글과 댓글에 대한 대댓글 기능
 - 로그인하지 않은 사용자의 익명 게시글, 익명 댓글 기능
 
-# 클래스 다이어그램
+<br>
+
+## 클래스 다이어그램
 ![image](https://user-images.githubusercontent.com/60869749/159413812-e6a33c0a-bc9d-4231-81ad-fc52115ae651.png)
 
-# 디렉터리 구조
+## 디렉터리 구조
 ![image](https://user-images.githubusercontent.com/60869749/159414028-d17a403f-f7e7-4548-a360-ec27cd5e19d7.png)
 
-# 진행과정
+<br>
+
+## 진행과정
 - 211213 ~ 211217: 프로젝트 설계
 - 211220: 프로젝트 세팅
 - 211221: 소셜 로그인, 세션 기능 구현
@@ -30,7 +38,9 @@ Java, Spring Boot, Spring Security, Spring Data JPA, OAuth2, JPA, MySQL
 - 211226: 마이 페이지 기능 구현
 - 220112: 도메인 주도 설계 리팩터링
 
-# 추가한 기능
+<br>
+
+## 추가한 기능
 - 다중 이미지 첨부와 조회, 수정, 삭제 기능 구현
 - 댓글에 대한 대댓글 기능 구현
 - 세션 저장소 기능
