@@ -45,6 +45,6 @@ public class CommentController {
         commentService.create(commentRequestDto);
 
         redirectAttributes.addAttribute("id", commentRequestDto.getBoardId());
-        return "redirect:/board/{id}/detail";
+        return "redirect:/board/{id}";
     }
 }

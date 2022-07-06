@@ -13,6 +13,7 @@ public class CommentRequestDto {
     private Long boardId;
     private LoginState loginState;
     private String ipAddress;
+    private Long parentId;
 
     @Builder
     public CommentRequestDto(String content, Long memberId, Long boardId) {

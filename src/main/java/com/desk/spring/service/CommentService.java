@@ -1,15 +1,15 @@
 package com.desk.spring.service;
 
-import com.desk.spring.repository.CommentRepositoryCustomImpl;
-import com.desk.spring.web.dto.CommentRequestDto;
-import com.desk.spring.web.dto.CommentResponseDto;
 import com.desk.spring.domain.Board;
 import com.desk.spring.domain.Comment;
 import com.desk.spring.domain.LoginState;
 import com.desk.spring.domain.Member;
 import com.desk.spring.repository.BoardRepository;
 import com.desk.spring.repository.CommentRepository;
+import com.desk.spring.repository.CommentRepositoryCustomImpl;
 import com.desk.spring.repository.MemberRepository;
+import com.desk.spring.web.dto.CommentRequestDto;
+import com.desk.spring.web.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +46,18 @@ public class CommentService {
                 comment.setMember(member);
             }
         }
-        commentRepository.save(comment);
+
+        if (commentRequestDto.getParentId() != null) {
+            Optional<Comment> parent = commentRepository.findById(commentRequestDto.getParentId());
+            if (parent.isPresent()) {
+                parent.get().setChild(comment);
+                commentRepositoryCustom.updateLeftRight(comment);
+                commentRepository.save(comment);
+            }
+        } else {
+            commentRepository.save(comment);
+            comment.setRootId(comment);
+        }
     }
 
     /*
@@ -64,24 +75,6 @@ public class CommentService {
      * 전체 댓글 조회
      */
     public List<CommentResponseDto> findAll(Long boardId) {
-        List<Comment> comments = commentRepositoryCustom.findCommentByBoardId(boardId);
-        return changeToDto(comments);
-    }
-
-    private List<CommentResponseDto> changeToDto(List<Comment> comments) {
-        List<CommentResponseDto> result = new ArrayList<>();
-        Map<Long, CommentResponseDto> map = new HashMap<>();
-
-        comments.forEach(c -> {
-            CommentResponseDto dto = new CommentResponseDto(c);
-            map.put(dto.getId(), dto);
-            if (c.getParent() != null) {
-                map.get(c.getParent().getId()).getChild().add(dto);
-            }
-            else {
-                result.add(dto);
-            }
-        });
-        return result;
+        return commentRepositoryCustom.findCommentByBoardId(boardId);
     }
 }

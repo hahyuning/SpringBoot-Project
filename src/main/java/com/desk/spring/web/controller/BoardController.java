@@ -8,11 +8,11 @@ import com.desk.spring.service.CommentService;
 import com.desk.spring.util.ClientUtils;
 import com.desk.spring.web.dto.BoardRequestDto;
 import com.desk.spring.web.dto.BoardResponseDto;
+import com.desk.spring.web.dto.CommentRequestDto;
 import com.desk.spring.web.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Controller
@@ -44,23 +46,36 @@ public class BoardController {
         return "/board/boardList";
     }
 
-//    @PostConstruct
-//    public void init() {
-//        for (int i = 0; i < 50; i++) {
-//            BoardRequestDto boardRequestDto = BoardRequestDto
-//                    .builder()
-//                    .title("test")
-//                    .content("test")
-//                    .build();
-//
-//            try {
-//                boardService.create(boardRequestDto, null);
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    @PostConstruct
+    public void init() {
+        BoardRequestDto boardRequestDto = BoardRequestDto
+                .builder().title("test").content("test").build();
+
+        boardService.create(boardRequestDto, null);
+
+        for (int i = 0; i < 1000; i++) {
+            CommentRequestDto commentRequestDto = CommentRequestDto
+                    .builder()
+                    .content("test")
+                    .boardId(1L).build();
+            commentRequestDto.setLoginState(LoginState.ANONYMOUS);
+            commentService.create(commentRequestDto);
+        }
+
+        int cnt = 0;
+        Random rd = new Random();
+        while (cnt < 1000) {
+            CommentRequestDto commentRequestDto = CommentRequestDto
+                    .builder()
+                    .content("test")
+                    .boardId(1L).build();
+            commentRequestDto.setLoginState(LoginState.ANONYMOUS);
+            commentRequestDto.setParentId(Long.valueOf(rd.nextInt(cnt + 1001)));
+            cnt++;
+            commentService.create(commentRequestDto);
+        }
+
+    }
 
     /*
      * 게시글 작성 폼
@@ -74,7 +89,6 @@ public class BoardController {
      * 게시글 등록
      */
     @PostMapping("/board/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public String createBoard(@RequestParam(value = "title") String title,
                               @RequestParam(value = "content") String content,
                               MultipartFile[] files,
@@ -102,13 +116,13 @@ public class BoardController {
 
         Long boardId = boardService.create(requestDto, files);
         redirectAttributes.addAttribute("id", boardId);
-        return "redirect:/board/{id}/detail";
+        return "redirect:/board/{id}";
     }
 
     /*
      * 게시글 한건 조회
      */
-    @GetMapping("board/{id}/detail")
+    @GetMapping("/board/{id}")
     public String detail(@PathVariable("id") Long id,
                          Model model,
                          @LoginUser SessionUser user) {
@@ -118,6 +132,8 @@ public class BoardController {
 
         List<CommentResponseDto> commentList = commentService.findAll(id);
         model.addAttribute("commentList", commentList);
+        log.info("" + commentList.size());
+
 
         // 조회한 사람과 작성한 사람 비교
         if (user != null && boardResponseDto.getMemberId() != null && user.getId().equals(boardResponseDto.getMemberId())) {

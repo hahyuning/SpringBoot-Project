@@ -40,6 +40,9 @@
         <label class="col-sm-2 col-form-label"><strong>내용</strong></label>
         <div class="col-sm-10">
             <span type="text" th:text="${board.content}" class="form-control"></span>
+            <div th:if="${not #lists.isEmpty( board.fileNames )}" th:each="row : ${board.fileNames}">
+                <img th:src="${row}">
+            </div>
         </div>
     </div>
     <div class="form-group row">
@@ -53,7 +56,7 @@
             <th>작성날짜</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="commentTable">
         <tr th:each="comment : ${commentList}">
             <td th:text="${comment.writer}"></td>
             <td th:text="${comment.content}"></td>

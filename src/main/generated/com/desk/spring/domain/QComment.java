@@ -26,7 +26,7 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final QBoard board;
 
-    public final ListPath<Comment, QComment> child = this.<Comment, QComment>createList("child", Comment.class, QComment.class, PathInits.DIRECT2);
+    public final ListPath<Comment, QComment> children = this.<Comment, QComment>createList("children", Comment.class, QComment.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");
 
@@ -37,6 +37,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final StringPath ipAddress = createString("ipAddress");
 
+    public final NumberPath<Long> leftNum = createNumber("leftNum", Long.class);
+
     public final EnumPath<LoginState> loginState = createEnum("loginState", LoginState.class);
 
     public final QMember member;
@@ -45,6 +47,10 @@ public class QComment extends EntityPathBase<Comment> {
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final QComment parent;
+
+    public final NumberPath<Long> rightNum = createNumber("rightNum", Long.class);
+
+    public final NumberPath<Long> root = createNumber("root", Long.class);
 
     public QComment(String variable) {
         this(Comment.class, forVariable(variable), INITS);

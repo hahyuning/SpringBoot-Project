@@ -16,7 +16,8 @@ public class BoardResponseDto {
     private Long memberId;
     private String writer;
     private LocalDateTime createdDate;
-    private List<Long> fileIdList;
+    private List<String> fileNames;
+    private List<CommentResponseDto> comments;
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
@@ -34,7 +35,8 @@ public class BoardResponseDto {
         this.content = board.getContent();
     }
 
-    public void setFile(List<Long> fileIdList) {
-        this.fileIdList = fileIdList;
+    public void setFile(List<String> fileNames) {
+        this.fileNames = fileNames;
     }
+    public void setComments(List<CommentResponseDto> comments) { this.comments = comments; }
 }

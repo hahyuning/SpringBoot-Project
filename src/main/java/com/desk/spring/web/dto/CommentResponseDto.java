@@ -2,12 +2,15 @@ package com.desk.spring.web.dto;
 
 import com.desk.spring.domain.Comment;
 import com.desk.spring.domain.LoginState;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class CommentResponseDto {
 
     private Long id;
@@ -16,9 +19,11 @@ public class CommentResponseDto {
     private String writer;
     private Long boardId;
     private Long parentId;
-    private List<CommentResponseDto> child;
+    private List<CommentResponseDto> children;
 
+    @QueryProjection
     public CommentResponseDto(Comment comment) {
+        this.id = comment.getId();
         this.content = comment.getContent();
         if (comment.getLoginState() == LoginState.NAMED_USER) {
             this.writer = comment.getMember().getName();

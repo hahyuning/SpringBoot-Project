@@ -6,7 +6,7 @@
 
 <th:block layout:fragment="content">
     <div class="card-content">
-        <form class="form-horizontal" th:action="@{/board/create}" method="post" enctype="multipart/form-data" onsubmit="return registerBoard(this)">
+        <form class="form-horizontal" th:action="@{/board/create}" method="post" enctype="multipart/form-data">
             <!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
 <!--            <input type="hidden" th:if="*{board != null and board.id > 0}" th:field="*{board.id}" />-->
             <div class="form-group">

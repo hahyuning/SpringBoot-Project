@@ -16,12 +16,11 @@ import java.util.List;
 public class Comment extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
     @Column(nullable = false)
-    @Lob
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,9 +40,14 @@ public class Comment extends BaseTimeEntity {
 
     private String ipAddress;
 
+    private Long root;
+
+    private Long leftNum = 1L;
+    private Long rightNum = 2L;
+
 //    @Builder.Default
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
-    private List<Comment> child = new ArrayList<>();
+    private List<Comment> children = new ArrayList<>();
 
     @Builder
     public Comment(CommentRequestDto commentRequestDto) {
@@ -62,8 +66,16 @@ public class Comment extends BaseTimeEntity {
         member.getMyComments().add(this);
     }
 
-    public void setParent(Comment parent) {
-        this.parent = parent;
-        parent.getChild().add(this);
+    public void setChild(Comment child) {
+        child.root = this.root;
+        child.parent = this;
+        child.leftNum = this.leftNum + 1;
+        child.rightNum = child.leftNum + 1;
+
+        this.children.add(child);
+    }
+
+    public void setRootId(Comment comment) {
+        this.root = comment.getId();
     }
 }

@@ -21,10 +21,10 @@ public class FileUtils {
 
     private final String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 
-    private final String uploadPath = Paths.get("D:", "develop", "upload", today).toString();
+    private final String uploadPath = Paths.get("D:","develop", "upload", today).toString();
 
     private final String getRandomString() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public List<PhotoDto> uploadPhotos(MultipartFile[] photos, Long boardId) {
@@ -54,6 +54,7 @@ public class FileUtils {
                         .boardId(boardId)
                         .origFileName(photo.getOriginalFilename())
                         .saveName(saveName)
+                        .uploadPath(uploadPath)
                         .fileSize(photo.getSize())
                         .build();
 
@@ -66,4 +67,5 @@ public class FileUtils {
         }
         return result;
     }
+
 }

@@ -72,11 +72,9 @@ public class BoardService {
     public BoardResponseDto findById(Long boardId) {
         // 첨부사진 조회
         List<Photo> photos = photoRepository.findAllByBoardId(boardId);
-
-        // ???
-        List<Long> photoIds = new ArrayList<>();
+        List<String> photoNames = new ArrayList<>();
         for (Photo photo : photos) {
-            photoIds.add(photo.getId());
+            photoNames.add(photo.getUploadPath() + "\\" + photo.getSaveName());
         }
 
         // 게시글 조회
@@ -84,7 +82,7 @@ public class BoardService {
         if (result.isPresent()) {
             Board board = result.get();
             BoardResponseDto boardResponseDto = new BoardResponseDto(board);
-            boardResponseDto.setFile(photoIds);
+            boardResponseDto.setFile(photoNames);
             return boardResponseDto;
         }
 

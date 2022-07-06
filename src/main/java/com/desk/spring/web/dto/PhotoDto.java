@@ -12,4 +12,5 @@ public class PhotoDto {
     private String origFileName;
     private String saveName;
     private long fileSize;
+    private String uploadPath;
 }

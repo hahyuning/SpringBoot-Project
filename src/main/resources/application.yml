@@ -11,7 +11,7 @@ spring:
     
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -27,6 +27,13 @@ spring:
     multipart:
       maxFileSize: 10MB
       maxRequestSize: 20MB
+
+  devtools:
+    livereload:
+      enabled: true
+
+  freemarker:
+    cache: false
 
 #   sql:
 #     init:

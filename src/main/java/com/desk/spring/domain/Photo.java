@@ -28,10 +28,13 @@ public class Photo {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    private String uploadPath;
+
     public Photo(PhotoDto photoDto) {
         this.origName = photoDto.getOrigFileName();
         this.saveName = photoDto.getSaveName();
         this.fileSize = photoDto.getFileSize();
+        this.uploadPath = photoDto.getUploadPath();
     }
 
     /*

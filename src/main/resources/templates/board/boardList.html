@@ -28,7 +28,7 @@
             <tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
                 <td scope="row" th:text="${row.id}"></td>
                 <td class="text-left">
-                    <a th:href="'/board/'+ ${row.id} + '/detail'" th:text="${row.title}"></a>
+                    <a th:href="'/board/'+ ${row.id}" th:text="${row.title}"></a>
                 </td>
                 <td th:text="${row.writer}"></td>
                 <td th:text="${#temporals.format( row.createdDate, 'yyyy-MM-dd' )}"></td>
